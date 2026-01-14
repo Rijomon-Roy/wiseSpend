@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f9fafb;
+}
+
+.navbar {
+  background: white;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #333;
+}
+
+.page {
+  padding: 20px;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+.income {
+  color: green;
+}
+
+.expense {
+  color: red;
+}
+
+.balance {
+  color: blue;
+}
+
+.form input,
+.form select,
+.form button {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 200px;
+}

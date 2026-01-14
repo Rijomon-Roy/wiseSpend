@@ -1,0 +1,313 @@
+📌 PROJECT OVERVIEW
+Project Name
+
+SpendWise – Expense Tracker & Finance Dashboard
+
+Purpose
+
+To help users:
+
+Track income & expenses
+
+Control monthly budgets
+
+Visually understand spending habits
+
+Download financial reports
+
+Target Users
+
+Students
+
+Working professionals
+
+Freelancers
+
+🧭 HOW YOU WILL BUILD THIS (IMPORTANT)
+
+You will follow this ORDER ONLY 👇
+❌ No random coding
+❌ No jumping steps
+
+✅ Correct Order:
+
+Understand features
+
+Plan pages
+
+Design UI (LOOK)
+
+Decide tech & structure
+
+Database design
+
+Backend logic
+
+Frontend integration
+
+Testing
+
+Deployment
+
+Showcase (GitHub + Resume)
+
+🧩 PHASE 1: FEATURE FINALIZATION (READ ONLY)
+Core Features (Must Have)
+
+User Login & Register
+
+Add Income & Expense
+
+Category-wise tracking
+
+Monthly dashboard charts
+
+Budget setting
+
+Transaction history
+
+Logout
+
+Advanced Features (Add Later)
+
+PDF / Excel report
+
+Dark mode
+
+Monthly comparison
+
+Multiple accounts (Cash / Bank)
+
+📌 Rule:
+👉 Build core first, advanced later
+
+🧩 PHASE 2: PAGE & FLOW DESIGN (VERY IMPORTANT)
+Pages You Will Have
+
+Landing Page
+
+Register Page
+
+Login Page
+
+Dashboard
+
+Add Transaction Page
+
+Budget Page
+
+Transaction History
+
+Profile Page
+
+User Flow (Simple)
+Landing → Register → Login → Dashboard
+Dashboard → Add Expense → View Charts
+Dashboard → Budget → Alerts
+Dashboard → Reports → Download
+
+
+📌 This flow must be clear before coding.
+
+🧩 PHASE 3: WEBSITE LOOK & UI PLANNING (FIRST REAL WORK)
+🎨 Theme Recommendation
+
+Finance apps look best with:
+
+Dark Blue / Green
+
+White cards
+
+Soft shadows
+
+Rounded corners
+
+Font
+
+Poppins / Inter
+
+Layout Style
+
+Sidebar (Dashboard style)
+
+Top summary cards
+
+Charts below
+
+🔍 DASHBOARD STRUCTURE (FINAL LOOK)
+Top Cards
+
+Total Income
+
+Total Expense
+
+Savings
+
+Budget Remaining
+
+Middle Section
+
+Income vs Expense (Bar Chart)
+
+Bottom Section
+
+Category-wise Pie Chart
+
+Recent Transactions
+
+🧩 PHASE 4: TECH STACK DECISION (FIXED)
+Layer	Tech
+Frontend	EJS + CSS + JS
+Backend	Node.js + Express
+Database	MongoDB
+Auth	JWT + bcrypt
+Charts	Chart.js
+Deployment	Render / Railway
+
+📌 We don’t change stack mid-way.
+
+🧩 PHASE 5: FOLDER STRUCTURE (YOU WILL FOLLOW THIS)
+expense-tracker/
+│
+├── models/
+│   ├── User.js
+│   ├── Transaction.js
+│   └── Budget.js
+│
+├── routes/
+│   ├── authRoutes.js
+│   ├── transactionRoutes.js
+│   ├── budgetRoutes.js
+│
+├── views/
+│   ├── auth/
+│   ├── dashboard/
+│   └── layouts/
+│
+├── public/
+│   ├── css/
+│   ├── js/
+│
+├── middleware/
+│   └── authMiddleware.js
+│
+├── app.js
+└── package.json
+
+
+📌 This itself impresses interviewers.
+
+🧩 PHASE 6: DATABASE DESIGN (THINKING PART)
+User Collection
+
+name
+
+email
+
+password
+
+Transaction Collection
+
+userId
+
+type (income/expense)
+
+amount
+
+category
+
+date
+
+note
+
+Budget Collection
+
+userId
+
+month
+
+category
+
+limit
+
+🧩 PHASE 7: DEVELOPMENT ORDER (STRICT)
+🚦 THIS IS THE MOST IMPORTANT PART
+
+You will build in THIS EXACT ORDER:
+
+STEP 1️⃣
+
+Project setup
+
+Express server
+
+MongoDB connection
+
+STEP 2️⃣
+
+User Register
+
+User Login
+
+JWT authentication
+
+STEP 3️⃣
+
+Add Income / Expense
+
+View transactions
+
+STEP 4️⃣
+
+Dashboard calculations
+
+Charts integration
+
+STEP 5️⃣
+
+Budget logic
+
+Alerts
+
+STEP 6️⃣
+
+Reports & export
+
+STEP 7️⃣
+
+UI polish
+
+Error handling
+
+🧩 PHASE 8: TESTING CHECKLIST
+
+✔ Login works
+✔ Data is user-specific
+✔ Charts update correctly
+✔ Budget warning triggers
+✔ Logout clears session
+
+🧩 PHASE 9: DEPLOYMENT
+
+Backend → Render
+
+MongoDB → Atlas
+
+Environment variables
+
+Live demo link
+
+🧩 PHASE 10: SHOWCASE PREPARATION
+GitHub README
+
+Features
+
+Tech stack
+
+Screenshots
+
+Live demo
+
+Resume Line
+
+Developed a full-stack expense tracker with secure authentication, budget management, and visual analytics using Node.js, Express, MongoDB, and Chart.js.
