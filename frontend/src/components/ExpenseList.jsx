@@ -5,9 +5,13 @@ function ExpenseList({ expenses, deleteExpense }) {
 
       {expenses.map((item) => (
         <div key={item.id} className="card">
-          <p>{item.title}</p>
-          <p>₹ {item.amount}</p>
-          <p>{item.type}</p>
+          <p>
+            {item.title} ({item.category})
+          </p>
+
+          <p>
+            ₹ {item.amount} • {item.type}
+          </p>
 
           <button onClick={() => deleteExpense(item.id)}>Delete</button>
         </div>
