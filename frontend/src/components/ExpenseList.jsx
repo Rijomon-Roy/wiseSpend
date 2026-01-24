@@ -10,7 +10,7 @@ function ExpenseList({ expenses, deleteExpense }) {
           </p>
 
           <p>
-            ₹ {item.amount} • {item.type}
+            ₹ {item.amount} • {item.type} • {item.date}
           </p>
 
           <button onClick={() => deleteExpense(item.id)}>Delete</button>
