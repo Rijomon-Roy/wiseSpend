@@ -1,19 +1,9 @@
-/*
-Fields:
-
-Title
-
-Amount
-
-Type (Income / Expense)
-
-Date
-*/
 import { useState } from "react";
 
-function AddExpense() {
+function AddExpense({ addExpense }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
+  const [type, setType] = useState("Expense");
   const [category, setCategory] = useState("Food");
   const [date, setDate] = useState("");
 
@@ -21,17 +11,20 @@ function AddExpense() {
     e.preventDefault();
 
     const expense = {
+      id: Date.now(),
       title,
-      amount,
+      amount: Number(amount),
+      type,
       category,
       date,
     };
 
-    console.log("Expense Added:", expense);
+    addExpense(expense); // 🔥 send to parent
 
-    // Clear form
+    // Reset form
     setTitle("");
     setAmount("");
+    setType("Expense");
     setCategory("Food");
     setDate("");
   }
@@ -43,11 +36,35 @@ function AddExpense() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Expense Title"
+          placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
         />
+
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="type"
+              value="Income"
+              checked={type === "Income"}
+              onChange={(e) => setType(e.target.value)}
+            />
+            Income
+          </label>
+
+          <label style={{ marginLeft: "15px" }}>
+            <input
+              type="radio"
+              name="type"
+              value="Expense"
+              checked={type === "Expense"}
+              onChange={(e) => setType(e.target.value)}
+            />
+            Expense
+          </label>
+        </div>
 
         <input
           type="number"
