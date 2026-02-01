@@ -1,55 +1,53 @@
+/* =========================
+   Tailwind layers
+========================= */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================
+   Small global tweaks
+========================= */
+
+html,
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f9fafb;
+  height: 100%;
 }
 
-.navbar {
-  background: white;
-  padding: 15px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+body {
+  @apply bg-slate-100 text-slate-800 font-sans;
 }
 
-.navbar a {
-  margin-left: 15px;
-  text-decoration: none;
-  color: #333;
+/* =========================
+   Reusable components
+   (clean dashboard helpers)
+========================= */
+
+/* main container */
+.app-container {
+  @apply max-w-6xl mx-auto px-4 py-10;
 }
 
-.page {
-  padding: 20px;
-}
-
-.cards {
-  display: flex;
-  gap: 20px;
-}
-
+/* white card */
 .card {
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
+  @apply bg-white rounded-2xl shadow-md p-6;
 }
 
-.income {
-  color: green;
+/* spacing between sections */
+.section {
+  @apply card mb-8;
 }
 
-.expense {
-  color: red;
+/* buttons */
+.btn {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition;
 }
 
-.balance {
-  color: blue;
+.btn-danger {
+  @apply bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition;
 }
 
-.form input,
-.form select,
-.form button {
-  display: block;
-  margin-bottom: 10px;
-  padding: 8px;
-  width: 200px;
+/* inputs */
+.input {
+  @apply border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500;
 }

@@ -28,19 +28,41 @@ function App() {
   }, []);
 
   return (
-    <div className="container">
-      <h1>WiseSpend 💸</h1>
+    <div className="app">
+      <h1 className="title">WiseSpend 💸</h1>
 
-      <h2>Balance: ₹ {summary.balance}</h2>
-      <p>
-        Income: ₹ {summary.income} | Expense: ₹ {summary.expense}
-      </p>
+      {/* summary cards */}
+      <div className="summary-grid">
+        <div className="card income">
+          <h3>Income</h3>
+          <p>₹ {summary.income}</p>
+        </div>
 
-      {/* pass refresh instead of addExpense */}
-      <AddExpense refresh={fetchData} />
+        <div className="card expense">
+          <h3>Expense</h3>
+          <p>₹ {summary.expense}</p>
+        </div>
 
-      {/* pass refresh instead of deleteExpense */}
-      <ExpenseList expenses={expenses} refresh={fetchData} />
+        <div className="card balance">
+          <h3>Balance</h3>
+          <p>₹ {summary.balance}</p>
+        </div>
+      </div>
+
+      {/* chart */}
+      <div className="section">
+        <ExpenseChart summary={summary} />
+      </div>
+
+      {/* form */}
+      <div className="section">
+        <AddExpense refresh={fetchData} />
+      </div>
+
+      {/* history */}
+      <div className="section">
+        <ExpenseList expenses={expenses} refresh={fetchData} />
+      </div>
     </div>
   );
 }
