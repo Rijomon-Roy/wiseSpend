@@ -28,40 +28,49 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <h1 className="title">WiseSpend 💸</h1>
+    <div className="min-h-screen bg-slate-100">
+      <div className="max-w-6xl mx-auto px-6 py-10">
+        {/* Title */}
+        <h1 className="text-4xl font-bold text-center mb-10">WiseSpend 💸</h1>
 
-      {/* summary cards */}
-      <div className="summary-grid">
-        <div className="card income">
-          <h3>Income</h3>
-          <p>₹ {summary.income}</p>
+        {/* Summary cards */}
+        <div className="grid md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-white rounded-2xl shadow p-6 text-center">
+            <p className="text-gray-500">Income</p>
+            <h2 className="text-3xl font-bold text-green-600">
+              ₹ {summary.income}
+            </h2>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow p-6 text-center">
+            <p className="text-gray-500">Expense</p>
+            <h2 className="text-3xl font-bold text-red-600">
+              ₹ {summary.expense}
+            </h2>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow p-6 text-center">
+            <p className="text-gray-500">Balance</p>
+            <h2 className="text-3xl font-bold text-blue-600">
+              ₹ {summary.balance}
+            </h2>
+          </div>
         </div>
 
-        <div className="card expense">
-          <h3>Expense</h3>
-          <p>₹ {summary.expense}</p>
+        {/* Chart */}
+        <div className="bg-white rounded-2xl shadow p-6 mb-10">
+          <ExpenseChart summary={summary} />
         </div>
 
-        <div className="card balance">
-          <h3>Balance</h3>
-          <p>₹ {summary.balance}</p>
+        {/* Form */}
+        <div className="bg-white rounded-2xl shadow p-6 mb-10">
+          <AddExpense refresh={fetchData} />
         </div>
-      </div>
 
-      {/* chart */}
-      <div className="section">
-        <ExpenseChart summary={summary} />
-      </div>
-
-      {/* form */}
-      <div className="section">
-        <AddExpense refresh={fetchData} />
-      </div>
-
-      {/* history */}
-      <div className="section">
-        <ExpenseList expenses={expenses} refresh={fetchData} />
+        {/* History */}
+        <div className="bg-white rounded-2xl shadow p-6">
+          <ExpenseList expenses={expenses} refresh={fetchData} />
+        </div>
       </div>
     </div>
   );

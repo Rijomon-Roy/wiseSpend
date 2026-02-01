@@ -32,19 +32,25 @@ function AddExpense({ refresh }) {
 
   return (
     <div>
-      <h2>Add Expense</h2>
+      <h2 className="text-xl font-semibold mb-4">Add Transaction</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-wrap gap-3 items-center"
+      >
+        {/* Title */}
         <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          className="border rounded-lg px-3 py-2 w-40"
         />
 
-        <div>
-          <label>
+        {/* Income / Expense */}
+        <div className="flex items-center gap-4">
+          <label className="flex items-center gap-1 cursor-pointer">
             <input
               type="radio"
               name="type"
@@ -55,7 +61,7 @@ function AddExpense({ refresh }) {
             Income
           </label>
 
-          <label style={{ marginLeft: "15px" }}>
+          <label className="flex items-center gap-1 cursor-pointer">
             <input
               type="radio"
               name="type"
@@ -67,6 +73,7 @@ function AddExpense({ refresh }) {
           </label>
         </div>
 
+        {/* Amount */}
         <input
           type="number"
           placeholder="Amount"
@@ -74,9 +81,15 @@ function AddExpense({ refresh }) {
           min="0"
           onChange={(e) => setAmount(e.target.value)}
           required
+          className="border rounded-lg px-3 py-2 w-32"
         />
 
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+        {/* Category */}
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="border rounded-lg px-3 py-2"
+        >
           <option>Food</option>
           <option>Transport</option>
           <option>Shopping</option>
@@ -84,14 +97,22 @@ function AddExpense({ refresh }) {
           <option>Other</option>
         </select>
 
+        {/* Date */}
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
           required
+          className="border rounded-lg px-3 py-2"
         />
 
-        <button type="submit">Add Expense</button>
+        {/* Button */}
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          Add
+        </button>
       </form>
     </div>
   );
