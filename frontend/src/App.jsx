@@ -1,44 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddExpense from "./pages/AddExpense";
 import ExpenseList from "./components/ExpenseList";
+import ExpenseChart from "./components/ExpenseChart";
+
+import { getTransactions, getSummary } from "./api/transactionApi";
 
 function App() {
   const [expenses, setExpenses] = useState([]);
 
-  // ➕ Add expense
-  const addExpense = (expense) => {
-    setExpenses([...expenses, expense]);
+  const [summary, setSummary] = useState({
+    income: 0,
+    expense: 0,
+    balance: 0,
+  });
+
+  // 🔥 fetch from backend
+  const fetchData = async () => {
+    const res = await getTransactions();
+    setExpenses(res.data);
+
+    const sum = await getSummary();
+    setSummary(sum.data);
   };
 
-  // ❌ Delete expense
-  const deleteExpense = (id) => {
-    const updated = expenses.filter((item) => item.id !== id);
-    setExpenses(updated);
-  };
-
-  // 💰 Calculations
-  const income = expenses
-    .filter((e) => e.type === "Income")
-    .reduce((acc, cur) => acc + Number(cur.amount), 0);
-
-  const expenseTotal = expenses
-    .filter((e) => e.type === "Expense")
-    .reduce((acc, cur) => acc + Number(cur.amount), 0);
-
-  const balance = income - expenseTotal;
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="container">
       <h1>WiseSpend 💸</h1>
 
-      <h2>Balance: ₹ {balance}</h2>
+      <h2>Balance: ₹ {summary.balance}</h2>
       <p>
-        Income: ₹ {income} | Expense: ₹ {expenseTotal}
+        Income: ₹ {summary.income} | Expense: ₹ {summary.expense}
       </p>
 
-      <AddExpense addExpense={addExpense} />
+      {/* pass refresh instead of addExpense */}
+      <AddExpense refresh={fetchData} />
 
-      <ExpenseList expenses={expenses} deleteExpense={deleteExpense} />
+      {/* pass refresh instead of deleteExpense */}
+      <ExpenseList expenses={expenses} refresh={fetchData} />
     </div>
   );
 }

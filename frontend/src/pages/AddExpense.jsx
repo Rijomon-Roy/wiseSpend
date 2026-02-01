@@ -1,27 +1,28 @@
 import { useState } from "react";
+import { addTransaction } from "../api/transactionApi";
 
-function AddExpense({ addExpense }) {
+function AddExpense({ refresh }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("Expense");
   const [category, setCategory] = useState("Food");
   const [date, setDate] = useState("");
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    const expense = {
-      id: Date.now(),
+    // 🔥 send to backend (MongoDB)
+    await addTransaction({
       title,
       amount: Number(amount),
-      type,
+      type: type.toLowerCase(), // backend expects income/expense
       category,
       date,
-    };
+    });
 
-    addExpense(expense); // 🔥 send to parent
+    refresh(); // reload list + summary
 
-    // Reset form
+    // reset form
     setTitle("");
     setAmount("");
     setType("Expense");
