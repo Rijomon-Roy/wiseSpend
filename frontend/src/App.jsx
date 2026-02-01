@@ -28,47 +28,49 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      <div className="max-w-6xl mx-auto px-6 py-10">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 py-6">
+      <div className="max-w-5xl mx-auto px-4">
         {/* Title */}
-        <h1 className="text-4xl font-bold text-center mb-10">WiseSpend 💸</h1>
+        <h1 className="text-3xl font-bold text-center mb-6 text-slate-800">
+          WiseSpend 💸
+        </h1>
 
-        {/* Summary cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-white rounded-2xl shadow p-6 text-center">
-            <p className="text-gray-500">Income</p>
-            <h2 className="text-3xl font-bold text-green-600">
+        {/* ===== SUMMARY CARDS ===== */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="rounded-xl p-4 shadow bg-green-50 border-l-4 border-green-500">
+            <p className="text-sm text-gray-600">Income</p>
+            <h2 className="text-2xl font-bold text-green-600">
               ₹ {summary.income}
             </h2>
           </div>
 
-          <div className="bg-white rounded-2xl shadow p-6 text-center">
-            <p className="text-gray-500">Expense</p>
-            <h2 className="text-3xl font-bold text-red-600">
+          <div className="rounded-xl p-4 shadow bg-red-50 border-l-4 border-red-500">
+            <p className="text-sm text-gray-600">Expense</p>
+            <h2 className="text-2xl font-bold text-red-600">
               ₹ {summary.expense}
             </h2>
           </div>
 
-          <div className="bg-white rounded-2xl shadow p-6 text-center">
-            <p className="text-gray-500">Balance</p>
-            <h2 className="text-3xl font-bold text-blue-600">
+          <div className="rounded-xl p-4 shadow bg-blue-50 border-l-4 border-blue-500">
+            <p className="text-sm text-gray-600">Balance</p>
+            <h2 className="text-2xl font-bold text-blue-600">
               ₹ {summary.balance}
             </h2>
           </div>
         </div>
 
-        {/* Chart */}
-        <div className="bg-white rounded-2xl shadow p-6 mb-10">
-          <ExpenseChart summary={summary} />
+        {/* ===== CHART ===== */}
+        <div className="bg-white rounded-xl shadow p-6 mb-6">
+          <ExpenseChart income={summary.income} expense={summary.expense} />
         </div>
 
-        {/* Form */}
-        <div className="bg-white rounded-2xl shadow p-6 mb-10">
+        {/* ===== FORM ===== */}
+        <div className="bg-white rounded-xl shadow p-4 mb-6">
           <AddExpense refresh={fetchData} />
         </div>
 
-        {/* History */}
-        <div className="bg-white rounded-2xl shadow p-6">
+        {/* ===== HISTORY ===== */}
+        <div className="bg-white rounded-xl shadow p-4">
           <ExpenseList expenses={expenses} refresh={fetchData} />
         </div>
       </div>

@@ -8,35 +8,51 @@ function ExpenseList({ expenses, refresh }) {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold mb-4">History</h3>
+      {/* Header */}
+      <h3 className="text-lg font-semibold mb-3 text-slate-700">History</h3>
 
-      <div className="space-y-3">
-        {expenses.map((item) => (
-          <div
-            key={item._id}
-            className="flex justify-between items-center bg-white rounded-xl shadow p-4"
-          >
-            {/* left info */}
-            <div>
-              <p className="font-semibold">
-                {item.title} ({item.category})
-              </p>
+      <div className="space-y-2">
+        {expenses.map((item) => {
+          const isIncome = item.type === "income";
 
-              <p className="text-sm text-gray-500">
-                ₹ {item.amount} • {item.type} •{" "}
-                {new Date(item.date).toLocaleDateString()}
-              </p>
-            </div>
-
-            {/* delete button */}
-            <button
-              onClick={() => handleDelete(item._id)}
-              className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition"
+          return (
+            <div
+              key={item._id}
+              className="flex justify-between items-center bg-slate-50 hover:bg-slate-100 rounded-lg px-4 py-2 transition"
             >
-              Delete
-            </button>
-          </div>
-        ))}
+              {/* LEFT SIDE */}
+              <div>
+                <p className="text-sm font-medium">
+                  {item.title} ({item.category})
+                </p>
+
+                <p className="text-xs text-gray-500">
+                  {new Date(item.date).toLocaleDateString()}
+                </p>
+              </div>
+
+              {/* RIGHT SIDE */}
+              <div className="flex items-center gap-3">
+                {/* amount with color */}
+                <span
+                  className={`font-semibold text-sm ${
+                    isIncome ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {isIncome ? "+" : "-"} ₹ {item.amount}
+                </span>
+
+                {/* delete */}
+                <button
+                  onClick={() => handleDelete(item._id)}
+                  className="text-xs bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
