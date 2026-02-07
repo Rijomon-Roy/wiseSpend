@@ -11,7 +11,7 @@ function Home() {
   const savings = income - expenses;
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="max-w-5xl mx-auto p-6 space-y-6">
       <GoalSetter />
 
       <Summary
@@ -21,7 +21,7 @@ function Home() {
         goal={goal}
       />
 
-      <ExpenseChart />
+      <ExpenseChart income={income} expense={expenses} />
 
       <AdviceBox savings={savings} goal={goal} />
     </div>

@@ -1,44 +1,30 @@
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-
+import AddExpense from "./AddExpense";
 import ExpenseList from "../components/ExpenseList";
+import { useEffect, useState } from "react";
 import { getTransactions } from "../api/transactionApi";
 
 export default function History() {
   const [expenses, setExpenses] = useState([]);
-  const [searchParams] = useSearchParams();
-
-  const categoryFilter = searchParams.get("category");
-
-  // ================= FETCH DATA =================
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const fetchData = async () => {
     const res = await getTransactions();
     setExpenses(res.data);
   };
 
-  // ================= FILTER =================
-  const filteredExpenses = categoryFilter
-    ? expenses.filter((e) => e.category === categoryFilter)
-    : expenses;
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  // ================= UI =================
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">
-        📜 History
-        {categoryFilter && (
-          <span className="text-sm ml-3 text-blue-500">
-            (Filtered: {categoryFilter})
-          </span>
-        )}
-      </h1>
+    <div className="max-w-5xl mx-auto p-6 space-y-6">
+      <h1 className="text-2xl font-bold">📜 History</h1>
 
       <div className="bg-white rounded-xl shadow p-4">
-        <ExpenseList expenses={filteredExpenses} refresh={fetchData} />
+        <AddExpense refresh={fetchData} />
+      </div>
+
+      <div className="bg-white rounded-xl shadow p-4">
+        <ExpenseList expenses={expenses} refresh={fetchData} />
       </div>
     </div>
   );
