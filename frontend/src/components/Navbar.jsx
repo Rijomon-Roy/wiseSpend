@@ -19,6 +19,7 @@ function Navbar() {
         <Link to="/history" className="hover:text-green-600 transition">
           History
         </Link>
+        <Link to="/analytics">Analytics</Link>
       </div>
     </nav>
   );
