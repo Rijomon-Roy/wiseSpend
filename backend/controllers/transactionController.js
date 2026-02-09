@@ -1,57 +1,55 @@
-const Transaction = require("../models/transaction");
+const Transaction = require("../models/Transaction");
 
-// Add transaction
-exports.addTransaction = async (req, res) => {
-  try {
-    const transaction = await Transaction.create(req.body);
+// ADD
+const addTransaction = async (req, res) => {
+  const data = await Transaction.create({
+    ...req.body,
+    user: req.user.id,
+  });
 
-    res.status(201).json(transaction);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  res.json(data);
 };
 
-// Get all transactions
-exports.getTransactions = async (req, res) => {
-  try {
-    const transactions = await Transaction.find().sort({ date: -1 });
-
-    res.json(transactions);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+// ALL
+const getTransactions = async (req, res) => {
+  const data = await Transaction.find({ user: req.user.id });
+  res.json(data);
 };
 
-// Delete transaction
-exports.deleteTransaction = async (req, res) => {
-  try {
-    await Transaction.findByIdAndDelete(req.params.id);
-
-    res.json({ message: "Transaction deleted" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+// DELETE
+const deleteTransaction = async (req, res) => {
+  await Transaction.findByIdAndDelete(req.params.id);
+  res.json({ msg: "Deleted" });
 };
 
-// Get summary (income/expense/balance)
-exports.getSummary = async (req, res) => {
-  try {
-    const transactions = await Transaction.find();
+// HISTORY
+const getHistory = async (req, res) => {
+  const data = await Transaction.find({ user: req.user.id }).sort({
+    createdAt: -1,
+  });
 
-    let income = 0;
-    let expense = 0;
+  res.json(data);
+};
 
-    transactions.forEach((t) => {
-      if (t.type === "income") income += t.amount;
-      else expense += t.amount;
-    });
+// SUMMARY
+const getSummary = async (req, res) => {
+  const data = await Transaction.find({ user: req.user.id });
 
-    res.json({
-      income,
-      expense,
-      balance: income - expense,
-    });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  let income = 0;
+  let expense = 0;
+
+  data.forEach((t) => {
+    if (t.type === "income") income += t.amount;
+    else expense += t.amount;
+  });
+
+  res.json({ income, expense, balance: income - expense });
+};
+
+module.exports = {
+  addTransaction,
+  getTransactions,
+  deleteTransaction,
+  getHistory,
+  getSummary,
 };
