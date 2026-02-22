@@ -1,18 +1,33 @@
 import { deleteTransaction } from "../api/transactionApi";
 
-function ExpenseList({ expenses, refresh }) {
+function ExpenseList({ expenses = [], refresh }) {
   const handleDelete = async (id) => {
     try {
       await deleteTransaction(id);
-      await refresh(); // ⭐ important
+      if (refresh) await refresh();
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const formatDate = (dateValue) => {
+    try {
+      if (!dateValue) return "No date";
+      const d = new Date(dateValue);
+      if (isNaN(d.getTime())) return "Invalid date";
+      return d.toLocaleDateString();
+    } catch {
+      return "Invalid date";
     }
   };
 
   return (
     <div>
       <h3 className="text-lg font-semibold mb-3 text-slate-700">History</h3>
+
+      {expenses.length === 0 && (
+        <p className="text-sm text-gray-500">No transactions yet</p>
+      )}
 
       <div className="space-y-2">
         {expenses.map((item) => {
@@ -28,9 +43,7 @@ function ExpenseList({ expenses, refresh }) {
                   {item.title} ({item.category})
                 </p>
 
-                <p className="text-xs text-gray-500">
-                  {new Date(item.date).toLocaleDateString()}
-                </p>
+                <p className="text-xs text-gray-500">{formatDate(item.date)}</p>
               </div>
 
               <div className="flex items-center gap-3">

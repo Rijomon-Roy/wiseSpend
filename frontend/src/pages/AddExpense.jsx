@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { addTransaction } from "../api/transactionApi";
+import { useNavigate } from "react-router-dom";
 
-function AddExpense({ refresh }) {
+function AddExpense() {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("Expense");
@@ -23,23 +26,17 @@ function AddExpense({ refresh }) {
         date,
       });
 
-      await refresh(); // ⭐ wait for refresh
-
-      // reset
-      setTitle("");
-      setAmount("");
-      setType("Expense");
-      setCategory("Food");
-      setDate("");
+      // ✅ Redirect to history after success
+      navigate("/history");
     } catch (err) {
-      console.error(err);
+      console.error("Add transaction failed:", err);
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-6">
+    <div className="max-w-4xl mx-auto bg-white shadow-md rounded-xl p-6">
       <h2 className="text-lg font-semibold mb-5 text-slate-700">
         Add Transaction
       </h2>
