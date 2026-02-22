@@ -4,22 +4,23 @@ function ExpenseList({ expenses = [], refresh }) {
   const handleDelete = async (id) => {
     try {
       await deleteTransaction(id);
-      if (refresh) await refresh();
+      if (typeof refresh === "function") {
+        await refresh();
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Delete failed:", err);
     }
   };
 
   const formatDate = (dateValue) => {
-    try {
-      if (!dateValue) return "No date";
-      const d = new Date(dateValue);
-      if (isNaN(d.getTime())) return "Invalid date";
-      return d.toLocaleDateString();
-    } catch {
-      return "Invalid date";
-    }
+    if (!dateValue) return "—";
+    const d = new Date(dateValue);
+    return isNaN(d.getTime()) ? "—" : d.toLocaleDateString();
   };
+
+  if (!Array.isArray(expenses)) {
+    return <p className="text-red-500 text-sm">Invalid expenses data</p>;
+  }
 
   return (
     <div>
@@ -31,6 +32,8 @@ function ExpenseList({ expenses = [], refresh }) {
 
       <div className="space-y-2">
         {expenses.map((item) => {
+          if (!item || !item._id) return null;
+
           const isIncome = item.type === "income";
 
           return (
@@ -40,7 +43,7 @@ function ExpenseList({ expenses = [], refresh }) {
             >
               <div>
                 <p className="text-sm font-medium">
-                  {item.title} ({item.category})
+                  {item.title ?? "Untitled"} ({item.category ?? "Other"})
                 </p>
 
                 <p className="text-xs text-gray-500">{formatDate(item.date)}</p>
@@ -52,7 +55,7 @@ function ExpenseList({ expenses = [], refresh }) {
                     isIncome ? "text-green-600" : "text-red-600"
                   }`}
                 >
-                  {isIncome ? "+" : "-"} ₹ {item.amount}
+                  {isIncome ? "+" : "-"} ₹ {item.amount ?? 0}
                 </span>
 
                 <button
