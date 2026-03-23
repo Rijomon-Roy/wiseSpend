@@ -13,9 +13,9 @@ import Register from "./pages/Register";
 import AddExpense from "./pages/AddExpense";
 import Analytics from "./pages/Analytics";
 import Profile from "./pages/Profile";
+import History from "./pages/History";
 
 /* -------- COMPONENTS -------- */
-import ExpenseList from "./components/ExpenseList";
 import ExpenseChart from "./components/ExpenseChart";
 import Navbar from "./components/Navbar";
 import GoalSetter from "./components/GoalSetter";
@@ -26,7 +26,7 @@ import ProgressBar from "./components/ProgressBar";
 import { getTransactions, getSummary } from "./api/transactionApi";
 import { isLoggedIn } from "./utils/auth";
 
-/* ---------------- PROTECTED ROUTE (SOFT AUTH) ---------------- */
+/* ---------------- PROTECTED ROUTE ---------------- */
 const ProtectedRoute = ({ children, message }) => {
   if (isLoggedIn()) return children;
 
@@ -53,8 +53,8 @@ const Layout = ({ children }) => {
   );
 };
 
-function App() {
-  const [expenses, setExpenses] = useState([]);
+/* ---------------- MAIN CONTENT ---------------- */
+function AppContent() {
   const [summary, setSummary] = useState({
     income: 0,
     expense: 0,
@@ -62,12 +62,10 @@ function App() {
   });
   const [goal, setGoal] = useState(0);
 
-  /* -------- FETCH DATA ONLY IF LOGGED IN -------- */
+  const location = useLocation();
+
   const fetchData = async () => {
     try {
-      const res = await getTransactions();
-      setExpenses(res.data);
-
       const sum = await getSummary();
       setSummary(sum.data);
     } catch (err) {
@@ -79,20 +77,32 @@ function App() {
     if (isLoggedIn()) {
       fetchData();
     }
-  }, []);
+  }, [location.pathname]);
 
   const savings = summary.balance;
   const progress = goal > 0 ? Math.min((savings / goal) * 100, 100) : 0;
 
   return (
-    <BrowserRouter>
-      <Layout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200">
-          <Routes>
-            {/* 🌍 PUBLIC DASHBOARD */}
-            <Route
-              path="/"
-              element={
+    <Layout>
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200">
+        <Routes>
+          {/* DEFAULT */}
+          <Route
+            path="/"
+            element={
+              isLoggedIn() ? (
+                <Navigate to="/dashboard" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+
+          {/* DASHBOARD */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute message="Login to access dashboard">
                 <div className="max-w-5xl mx-auto px-4 py-6">
                   <h1 className="text-3xl font-bold text-center mb-6 text-slate-800">
                     WiseSpend 💸
@@ -126,55 +136,64 @@ function App() {
                     />
                   </div>
                 </div>
-              }
-            />
+              </ProtectedRoute>
+            }
+          />
 
-            {/* 🔐 PROTECTED FEATURES */}
-            <Route
-              path="/add"
-              element={
-                <ProtectedRoute message="Login to add expenses">
-                  <AddExpense />
-                </ProtectedRoute>
-              }
-            />
+          {/* FEATURES */}
+          <Route
+            path="/add"
+            element={
+              <ProtectedRoute message="Login to add expenses">
+                <AddExpense />
+              </ProtectedRoute>
+            }
+          />
 
-            <Route
-              path="/history"
-              element={
-                <ProtectedRoute message="Login to view history">
-                  <History />
-                </ProtectedRoute>
-              }
-            />
+          <Route
+            path="/history"
+            element={
+              <ProtectedRoute message="Login to view history">
+                <History />
+              </ProtectedRoute>
+            }
+          />
 
-            <Route
-              path="/analytics"
-              element={
-                <ProtectedRoute message="Login to view analytics">
-                  <Analytics />
-                </ProtectedRoute>
-              }
-            />
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute message="Login to view analytics">
+                <Analytics />
+              </ProtectedRoute>
+            }
+          />
 
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute message="Login to view your profile">
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute message="Login to view your profile">
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
-            {/* 🔓 AUTH ROUTES */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+          {/* AUTH */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-            {/* 🔁 SAFE FALLBACK */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </div>
-      </Layout>
+          {/* FALLBACK */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
+    </Layout>
+  );
+}
+
+/* ---------------- ROOT APP ---------------- */
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }

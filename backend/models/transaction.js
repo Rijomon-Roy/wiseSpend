@@ -8,7 +8,9 @@ const transactionSchema = new mongoose.Schema(
     },
     title: String,
     amount: Number,
-    type: String, // income / expense
+    type: String,
+    category: String,
+    date: Date,
   },
   { timestamps: true },
 );

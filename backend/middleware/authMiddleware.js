@@ -1,15 +1,25 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  const token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
-  if (!token) return res.status(401).json("No token");
+  console.log("👉 HEADER:", authHeader);
+
+  if (!authHeader) return res.status(401).json("No token");
 
   try {
+    const token = authHeader.split(" ")[1];
+
+    console.log("👉 TOKEN:", token);
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    console.log("✅ DECODED:", decoded);
+
     req.user = decoded;
     next();
-  } catch {
+  } catch (err) {
+    console.log("❌ JWT ERROR:", err.message);
     res.status(401).json("Invalid token");
   }
 };

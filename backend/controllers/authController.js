@@ -29,6 +29,10 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(400).json("Please provide all fields");
+    }
+
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: "Invalid email" });
 

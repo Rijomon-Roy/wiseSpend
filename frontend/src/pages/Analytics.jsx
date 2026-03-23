@@ -26,8 +26,11 @@ export default function Analytics() {
   const total = transactions.reduce((s, t) => s + t.amount, 0);
 
   const categoryMap = {};
+
   transactions.forEach((t) => {
-    categoryMap[t.category] = (categoryMap[t.category] || 0) + t.amount;
+    const category = t.category || "Other"; // ✅ FIX
+
+    categoryMap[category] = (categoryMap[category] || 0) + t.amount;
   });
 
   const topCategory = Object.entries(categoryMap).sort(
@@ -59,10 +62,12 @@ export default function Analytics() {
   if (topCategory && total > 0) {
     const percent = ((topCategory[1] / total) * 100).toFixed(0);
 
+    const categoryName = topCategory?.[0] || "Other"; // ✅ FIX
+
     if (percent > 50)
-      advice = `⚠️ ${topCategory[0]} takes ${percent}% of your expenses. Try reducing it.`;
+      advice = `⚠️ ${categoryName} takes ${percent}% of your expenses. Try reducing it.`;
     else if (percent > 30)
-      advice = `💡 You spend quite a bit on ${topCategory[0]}. Consider budgeting.`;
+      advice = `💡 You spend quite a bit on ${categoryName}. Consider budgeting.`;
   }
 
   // ================= UI =================
@@ -93,9 +98,7 @@ export default function Analytics() {
           className="bg-white p-4 rounded-xl shadow cursor-pointer hover:scale-105 transition"
         >
           <p className="text-sm text-gray-500">Top Category</p>
-          <h2 className="text-xl font-bold">
-            {topCategory ? topCategory[0] : "—"}
-          </h2>
+          <h2 className="text-xl font-bold">{topCategory?.[0] || "—"}</h2>
           <p className="text-xs text-blue-500 mt-1">Show details ↓</p>
         </div>
 
