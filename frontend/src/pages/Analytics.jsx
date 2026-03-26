@@ -23,14 +23,15 @@ export default function Analytics() {
   };
 
   // ================= CALCULATIONS =================
-  const total = transactions.reduce((s, t) => s + t.amount, 0);
+  const total = transactions.reduce((s, t) => s + Number(t.amount || 0), 0);
 
   const categoryMap = {};
 
   transactions.forEach((t) => {
-    const category = t.category || "Other"; // ✅ FIX
+    const category = (t.category || "Other").toLowerCase();
 
-    categoryMap[category] = (categoryMap[category] || 0) + t.amount;
+    categoryMap[category] =
+      (categoryMap[category] || 0) + Number(t.amount || 0);
   });
 
   const topCategory = Object.entries(categoryMap).sort(
@@ -42,7 +43,9 @@ export default function Analytics() {
 
   // ================= FILTER =================
   const filteredTransactions = selectedCategory
-    ? transactions.filter((t) => t.category === selectedCategory)
+    ? transactions.filter(
+        (t) => (t.category || "Other").toLowerCase() === selectedCategory,
+      )
     : transactions;
 
   // ================= SCROLL FUNCTION =================

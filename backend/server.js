@@ -13,8 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("MongoDB Connected"));
+  .connect(process.env.MONGO_URI) // ✅ FIXED
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
