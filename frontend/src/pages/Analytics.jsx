@@ -13,33 +13,48 @@ export default function Analytics() {
   const listRef = useRef(null);
 
   // ================= FETCH =================
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+const fetchData = async () => {
+  try {
     const res = await getTransactions();
     setTransactions(res.data);
-  };
+  } catch (err) {
+    console.error("Fetch Error:", err);
+  }
+};
+
+useEffect(() => {
+  fetchData();
+}, []);
 
   // ================= CALCULATIONS =================
-  const total = transactions.reduce((s, t) => s + Number(t.amount || 0), 0);
+
+// Only expenses
+const expenseTransactions = transactions.filter(
+  (t) => t.type === "expense"
+);
+
+const total = expenseTransactions.reduce(
+  (s, t) => s + Number(t.amount || 0),
+  0
+);
 
   const categoryMap = {};
 
-  transactions.forEach((t) => {
-    const category = (t.category || "Other").toLowerCase();
+  expenseTransactions.forEach((t) => {
+  const category = (t.category || "Other").toLowerCase();
 
-    categoryMap[category] =
-      (categoryMap[category] || 0) + Number(t.amount || 0);
-  });
+  categoryMap[category] =
+    (categoryMap[category] || 0) + Number(t.amount || 0);
+});
 
   const topCategory = Object.entries(categoryMap).sort(
     (a, b) => b[1] - a[1],
   )[0];
 
   const avg =
-    transactions.length > 0 ? (total / transactions.length).toFixed(0) : 0;
+  expenseTransactions.length > 0
+    ? (total / expenseTransactions.length).toFixed(0)
+    : 0;
 
   // ================= FILTER =================
   const filteredTransactions = selectedCategory
@@ -67,12 +82,17 @@ export default function Analytics() {
 
     const categoryName = topCategory?.[0] || "Other"; // ✅ FIX
 
-    if (percent > 50)
-      advice = `⚠️ ${categoryName} takes ${percent}% of your expenses. Try reducing it.`;
-    else if (percent > 30)
-      advice = `💡 You spend quite a bit on ${categoryName}. Consider budgeting.`;
+if (expenseTransactions.length < 3) {
+  advice =
+    "Add more transactions to get accurate spending insights.";
+} else if (percent > 50) {
+  advice =
+    `⚠️ ${categoryName} takes ${percent}% of your expenses. Try reducing it.`;
+} else if (percent > 30) {
+  advice =
+    `💡 You spend quite a bit on ${categoryName}. Consider budgeting.`;
+}
   }
-
   // ================= UI =================
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -91,7 +111,9 @@ export default function Analytics() {
           className="bg-white p-4 rounded-xl shadow cursor-pointer hover:scale-105 transition"
         >
           <p className="text-sm text-gray-500">Transactions</p>
-          <h2 className="text-xl font-bold">{transactions.length}</h2>
+        <h2 className="text-xl font-bold">
+  {expenseTransactions.length}
+</h2>
           <p className="text-xs text-blue-500 mt-1">View below ↓</p>
         </div>
 
@@ -119,8 +141,11 @@ export default function Analytics() {
 
       {/* ================= CHARTS ================= */}
       <div className="grid md:grid-cols-2 gap-6 mb-10">
-        <CategoryChart transactions={transactions} />
-        <SpendingTrendChart transactions={transactions} />
+       <CategoryChart transactions={expenseTransactions} />
+
+<SpendingTrendChart
+  transactions={expenseTransactions}
+/>
       </div>
 
       {/* ================= TRANSACTION LIST ================= */}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addTransaction } from "../api/transactionApi";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,14 @@ function AddExpense() {
   const [category, setCategory] = useState("Food");
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (type === "Income") {
+      setCategory("Salary");
+    } else {
+      setCategory("Food");
+    }
+  }, [type]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -87,16 +95,29 @@ function AddExpense() {
         />
 
         <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="border rounded-lg px-3 py-2"
-        >
-          <option>Food</option>
-          <option>Transport</option>
-          <option>Shopping</option>
-          <option>Bills</option>
-          <option>Other</option>
-        </select>
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+  className="border rounded-lg px-3 py-2"
+>
+  {type === "Income" ? (
+    <>
+      <option>Salary</option>
+      <option>Bonus</option>
+      <option>Freelance</option>
+      <option>Investment</option>
+      <option>Other</option>
+    </>
+  ) : (
+    <>
+      <option>Food</option>
+      <option>Transport</option>
+      <option>Shopping</option>
+      <option>Bills</option>
+      <option>Entertainment</option>
+      <option>Other</option>
+    </>
+  )}
+</select>
 
         <input
           type="date"

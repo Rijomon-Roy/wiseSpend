@@ -12,8 +12,9 @@ function ExpenseChart({ income = 0, expense = 0 }) {
   // ================= CALCULATIONS =================
   const balance = incomeValue - expenseValue;
 
-  const savingsRate = incomeValue
-    ? ((balance / incomeValue) * 100).toFixed(0)
+  const savingsRate =
+  incomeValue > 0
+    ? Math.max(0, ((balance / incomeValue) * 100).toFixed(0))
     : 0;
 
   // ================= CHART DATA =================
@@ -77,7 +78,15 @@ function ExpenseChart({ income = 0, expense = 0 }) {
             ₹ {balance}
           </p>
 
-          <p className="text-xs text-gray-400 mt-1">{savingsRate}% saved</p>
+          {balance >= 0 ? (
+  <p className="text-xs text-gray-400 mt-1">
+    {savingsRate}% saved
+  </p>
+) : (
+  <p className="text-xs text-red-500 mt-1">
+    Overspent by ₹{Math.abs(balance)}
+  </p>
+)}
         </div>
       </div>
     </div>
