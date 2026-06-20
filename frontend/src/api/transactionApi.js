@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api/transactions",
+  baseURL: "https://wisespend-backend.onrender.com/api/transactions",
 });
 
 // 🔐 Attach token automatically to every request
