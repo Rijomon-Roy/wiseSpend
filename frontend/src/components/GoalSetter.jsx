@@ -1,12 +1,13 @@
 function GoalSetter({ goal, setGoal }) {
-  const handleChange = (e) => {
-    const value = e.target.value;
+const handleChange = (e) => {
+  const value = e.target.value;
 
-    // remove leading zeros + convert to number
-    const cleanNumber = Number(value);
+  const cleanNumber = Number(value);
 
-    setGoal(cleanNumber);
-  };
+  setGoal(cleanNumber);
+
+  localStorage.setItem("goal", cleanNumber);
+};
 
   return (
     <div className="flex items-center gap-3">

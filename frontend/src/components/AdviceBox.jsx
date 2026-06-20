@@ -18,4 +18,4 @@ function AdviceBox({ savings, goal }) {
   );
 }
 
-export default AdviceBox;
+export default AdviceBox; 
