@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/api/auth";
+const API = "https://wisespend-backend.onrender.com/api/auth";
 
 export const registerUser = (data) => axios.post(`${API}/register`, data);
 
